@@ -15,6 +15,7 @@ class FirstFragment : Fragment() {
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
+            /*this is a useless comment*/
             savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
