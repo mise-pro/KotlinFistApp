@@ -6,9 +6,10 @@ import android.util.Log
 
 class MainActivity : AppCompatActivity(), FragmentMoviesList.IFragmentMoviesListListener, FragmentMoviesDetails.IFragmentMovieDetailsListener {
 
-    private var moviesListFragment : FragmentMoviesList? = null
-    private var movieDetailsFragment : FragmentMoviesDetails? = null
-    private var visibleFragment : String? = null
+    private var moviesListFragment: FragmentMoviesList? = null
+    private var movieDetailsFragment: FragmentMoviesDetails? = null
+    private var selectedMovieId: Int = 0
+    private var visibleFragment: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,19 +22,12 @@ class MainActivity : AppCompatActivity(), FragmentMoviesList.IFragmentMoviesList
                     add(R.id.mainFrame, moviesListFragment!!)
                     commit()
                 }
-        movieDetailsFragment = FragmentMoviesDetails().apply { setClickListener(this@MainActivity) }
-        supportFragmentManager.beginTransaction()
-                .apply {
-                    add(R.id.mainFrame, movieDetailsFragment!!)
-                    commit()
-                }
 
-        if (savedInstanceState==null) {
+
+        if (savedInstanceState == null) {
             visibleFragment = FragmentMoviesList.FRAGMENT_NAME
             setupUi()
         }
-
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -44,44 +38,38 @@ class MainActivity : AppCompatActivity(), FragmentMoviesList.IFragmentMoviesList
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         visibleFragment = savedInstanceState.getString(VISIBLE_FRAGMENT)
-
         setupUi()
     }
 
     private fun setupUi() {
         if (visibleFragment == FragmentMoviesDetails.FRAGMENT_NAME) {
-            supportFragmentManager.beginTransaction()
-                    .apply {
-                        show(movieDetailsFragment!!)
-                        commit()
-                    }
-        } else {
-            supportFragmentManager.beginTransaction()
-                    .apply {
-                        hide(movieDetailsFragment!!)
-                        commit()
-                    }
+            movieDetailsFragmentCreate()
         }
+    }
 
+    private fun movieDetailsFragmentCreate() {
+        movieDetailsFragment = FragmentMoviesDetails.newInstance(selectedMovieId).apply { setClickListener(this@MainActivity) }
+        supportFragmentManager.beginTransaction()
+                .apply {
+                    add(R.id.mainFrame, movieDetailsFragment!!)
+                    commit()
+                }
     }
 
     override fun movieCardClick(movieId: Int) {
         visibleFragment = FragmentMoviesDetails.FRAGMENT_NAME
-        supportFragmentManager.beginTransaction()
-            .apply {
-                show(movieDetailsFragment!!)
-                commit()
-                //TODO pass args to movieDetails
-            }
+        selectedMovieId = movieId
+        movieDetailsFragmentCreate()
     }
 
     override fun backButtonPressed() {
         visibleFragment = FragmentMoviesList.FRAGMENT_NAME
         supportFragmentManager.beginTransaction()
-            .apply {
-                hide(movieDetailsFragment!!)
-                commit()
-            }
+                .apply {
+                    remove(movieDetailsFragment!!)
+                    commit()
+                }
+        movieDetailsFragment = null
     }
 
     companion object {

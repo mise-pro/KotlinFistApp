@@ -8,24 +8,25 @@ import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 
-class FragmentMoviesList: Fragment() {
+class FragmentMoviesList : Fragment() {
 
-    private var cardClicked : CardView? = null
+    private var cardClicked: CardView? = null
     private var listener: IFragmentMoviesListListener? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_movies_list, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         cardClicked = view.findViewById<CardView>(R.id.movieCardView).apply {
-            setOnClickListener{
-                listener?.movieCardClick(0)
-                Log.d("setOnClickListener","catch!")}
+            setOnClickListener {
+                listener?.movieCardClick(656)
+                Log.d("setOnClickListener", "catch!")
+            }
             //todo pass real movieId
         }
     }
@@ -35,11 +36,15 @@ class FragmentMoviesList: Fragment() {
         listener = null
     }
 
-    interface IFragmentMoviesListListener{
-        fun movieCardClick(movieId : Int)
+    interface IFragmentMoviesListListener {
+        fun movieCardClick(movieId: Int)
     }
 
-    fun setClickListener (l: IFragmentMoviesListListener){
+    fun setClickListener(l: IFragmentMoviesListListener) {
         listener = l
+    }
+
+    companion object {
+        const val FRAGMENT_NAME = "FRAGMENT_MOVIE_LIST"
     }
 }
