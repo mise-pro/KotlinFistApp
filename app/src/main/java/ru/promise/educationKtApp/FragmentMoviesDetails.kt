@@ -39,4 +39,8 @@ class FragmentMoviesDetails: Fragment() {
     fun setClickListener (l: IFragmentMovieDetailsListener){
         listener = l
     }
+
+    companion object {
+        const val FRAGMENT_NAME = "VISIBLE_FRAGMENT"
+    }
 }
