@@ -2,7 +2,6 @@ package ru.promise.educationKtApp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 
 class MainActivity : AppCompatActivity(), FragmentMoviesList.IFragmentMoviesListListener, FragmentMoviesDetails.IFragmentMovieDetailsListener {
 
@@ -48,7 +47,7 @@ class MainActivity : AppCompatActivity(), FragmentMoviesList.IFragmentMoviesList
     }
 
     private fun movieDetailsFragmentCreate() {
-        movieDetailsFragment = FragmentMoviesDetails.newInstance(selectedMovieId).apply { setClickListener(this@MainActivity) }
+        movieDetailsFragment = FragmentMoviesDetails().apply { setClickListener(this@MainActivity) }
         supportFragmentManager.beginTransaction()
                 .apply {
                     add(R.id.mainFrame, movieDetailsFragment!!)
