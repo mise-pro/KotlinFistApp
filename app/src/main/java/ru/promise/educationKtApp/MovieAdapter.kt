@@ -20,7 +20,6 @@ class MovieAdapter(
             .fallback(R.drawable.ic_launcher_background)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        //notifyDataSetChanged()
         return MovieViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_holder_movie, parent, false))
     }
 
@@ -29,7 +28,6 @@ class MovieAdapter(
         holder.itemView.setOnClickListener {
             clickItemMovieListener.movieSelectionClick(movies[position])
         }
-        //notifyDataSetChanged()//todo может быть неправильное место!
     }
 
     override fun getItemCount(): Int = movies.size

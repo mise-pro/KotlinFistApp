@@ -4,17 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     tools:context=".MainActivity">
 
     <ScrollView
         android:id="@+id/scrollViewMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#191926">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/moviePoster"
+                android:layout_width="wrap_content"
+                android:layout_height="300dp"
+                android:alpha="1"
+                android:foreground="@drawable/movie_poster_gradient"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@drawable/movie_poster" />
 
             <TextView
                 android:id="@+id/backButton"
@@ -26,23 +37,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/moviePoster"
-                android:layout_width="wrap_content"
-                android:layout_height="300dp"
-                android:alpha="0.5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@drawable/movie_poster" />
-
             <TextView
                 android:id="@+id/pg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="222dp"
-                android:text="@string/movie_pg"
+                android:padding="2dp"
+                tools:text="@string/movie_pg"
                 android:textColor="@color/colorWhite"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -53,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/movieName"
+                tools:text="@string/movieName"
                 android:textColor="@color/colorWhite"
                 android:textSize="40sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/movieTagline"
+                tools:text="@string/movieTagline"
                 android:textColor="@color/colorMyRed"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -121,7 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="@string/reviewCounter"
+                tools:text="@string/reviewCounter"
                 android:textColor="@color/colorMyGray"
                 android:textSize="14dp"
                 app:layout_constraintStart_toEndOf="@+id/rateStar5"
@@ -148,9 +150,8 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:singleLine="false"
-                android:text="@string/storyLineText"
+                tools:text="@string/storyLineText"
                 android:textColor="@color/colorMyGray"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/storyLine" />
@@ -168,134 +169,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/storyLineText" />
 
-            <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/castBarrier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="castLine"
-                tools:layout_editor_absoluteY="525dp" />
-
-            <ImageView
-                android:id="@+id/actor1Slot"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvActorList"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintEnd_toStartOf="@+id/actor2Slot"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/castBarrier"
-                android:src="@drawable/actor1"/>
-
-            <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/slot1Barrier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="right"
-                app:constraint_referenced_ids="actor1Slot"
-                tools:layout_editor_absoluteX="411dp" />
-
-            <TextView
-                android:id="@+id/actor1SlotName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/actor1SlotName"
-                android:textColor="@color/colorWhite"
-                app:layout_constraintEnd_toEndOf="@id/slot1Barrier"
-                app:layout_constraintStart_toStartOf="@id/actor1Slot"
-                app:layout_constraintTop_toBottomOf="@id/actor1Slot" />
-
-            <ImageView
-                android:id="@+id/actor2Slot"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintDimensionRatio="2:2"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/actor3Slot"
-                app:layout_constraintStart_toEndOf="@+id/actor1Slot"
-                app:layout_constraintTop_toBottomOf="@id/castBarrier"
-                app:srcCompat="@drawable/actor2" />
-
-            <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/slot2Barrier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="right"
-                app:constraint_referenced_ids="actor2Slot"/>
-
-            <TextView
-                android:id="@+id/actor2SlotName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/actor2SlotName"
-                android:textColor="@color/colorWhite"
-                app:layout_constraintEnd_toEndOf="@id/slot2Barrier"
-                app:layout_constraintStart_toStartOf="@id/actor2Slot"
-                app:layout_constraintTop_toBottomOf="@id/actor2Slot" />
-
-            <ImageView
-                android:id="@+id/actor3Slot"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintDimensionRatio="1:1"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toStartOf="@+id/actor4Slot"
-                app:layout_constraintStart_toEndOf="@+id/actor2Slot"
-                app:layout_constraintTop_toBottomOf="@id/castBarrier"
-                app:srcCompat="@drawable/actor3" />
-
-            <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/slot3Barrier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="right"
-                app:constraint_referenced_ids="actor3Slot"/>
-
-            <TextView
-                android:id="@+id/actor3SlotName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/actor3SlotName"
-                android:textColor="@color/colorWhite"
-                app:layout_constraintEnd_toEndOf="@id/slot3Barrier"
-                app:layout_constraintStart_toStartOf="@id/actor3Slot"
-                app:layout_constraintTop_toBottomOf="@id/actor3Slot" />
-
-            <ImageView
-                android:id="@+id/actor4Slot"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintDimensionRatio="1:1"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="16dp"
+                android:padding="5dp"
+                android:scrollbars="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/actor3Slot"
-                app:layout_constraintTop_toBottomOf="@id/castBarrier"
-                app:srcCompat="@drawable/actor4" />
-
-            <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/slot4Barrier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:barrierDirection="right"
-                app:constraint_referenced_ids="actor4Slot"/>
-
-            <TextView
-                android:id="@+id/actor4SlotName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/actor4SlotName"
-                android:textColor="@color/colorWhite"
-                app:layout_constraintEnd_toEndOf="@id/slot4Barrier"
-                app:layout_constraintStart_toStartOf="@id/actor4Slot"
-                app:layout_constraintTop_toBottomOf="@id/actor4Slot" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/castLine" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

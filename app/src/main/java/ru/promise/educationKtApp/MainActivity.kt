@@ -2,14 +2,13 @@ package ru.promise.educationKtApp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import ru.promise.educationKtApp.model.Movie
 
-class MainActivity : AppCompatActivity(), IMovieSelectionListener, FragmentMoviesDetails.IFragmentMovieDetailsListener {
+class MainActivity : AppCompatActivity(), IMovieSelectionListener, IBackToMovieListListener {
 
     private var moviesListFragment: FragmentMoviesList? = null
     private var movieDetailsFragment: FragmentMoviesDetails? = null
-    private var selectedMovieId: Movie? = null
+    private var selectedMovie: Movie? = null
     private var visibleFragment: String? = null
 
 
@@ -49,7 +48,7 @@ class MainActivity : AppCompatActivity(), IMovieSelectionListener, FragmentMovie
     }
 
     private fun movieDetailsFragmentCreate() {
-        movieDetailsFragment = FragmentMoviesDetails().apply { setClickListener(this@MainActivity) }
+        movieDetailsFragment = FragmentMoviesDetails.newInstance(selectedMovie!!).apply { setBackToMovieListListener(this@MainActivity) }
         supportFragmentManager.beginTransaction()
                 .apply {
                     add(R.id.mainFrame, movieDetailsFragment!!)
@@ -59,12 +58,11 @@ class MainActivity : AppCompatActivity(), IMovieSelectionListener, FragmentMovie
 
     override fun movieSelectionClick(movie: Movie) {
         visibleFragment = FragmentMoviesDetails.FRAGMENT_NAME
-        selectedMovieId = movie
-        Log.d("movieCardClick", movie.name)//todo refactor
-        /*movieDetailsFragmentCreate()*/
+        selectedMovie = movie
+        movieDetailsFragmentCreate()
     }
 
-    override fun backButtonPressed() {
+    override fun backToMovieListTransition() {
         visibleFragment = FragmentMoviesList.FRAGMENT_NAME
         supportFragmentManager.beginTransaction()
                 .apply {
@@ -80,4 +78,7 @@ class MainActivity : AppCompatActivity(), IMovieSelectionListener, FragmentMovie
 }
 interface IMovieSelectionListener {
     fun movieSelectionClick(movie: Movie)
+}
+interface IBackToMovieListListener{
+    fun backToMovieListTransition()
 }

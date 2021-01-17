@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/movie_poster"
-        android:foreground="@drawable/moviePosterGradient"/>/>
+        android:foreground="@drawable/movie_poster_gradient"/>
 
     <TextView
         android:id="@+id/pg"
@@ -23,7 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="#14172B"
+        android:background="@color/colorBlack"
+        android:padding="2dp"
         android:text="@string/movie_pg"
         android:textColor="@color/colorWhite"
         app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +95,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/reviewCounter"
+        tools:text="@string/reviewCounter"
         android:textColor="@color/colorMyGray"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/moviePoster"
@@ -105,7 +106,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="Avengers: End Game"
+        tools:text="Avengers: End Game"
         android:textColor="@color/colorWhite"
         android:textSize="12dp"
         app:layout_constraintStart_toStartOf="parent"

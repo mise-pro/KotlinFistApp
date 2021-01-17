@@ -1,6 +1,10 @@
 package ru.promise.educationKtApp.model
 
-data class Movie(
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class Movie (
         val name: String,
         val poster: String,
         val pg: Int,
@@ -10,4 +14,5 @@ data class Movie(
         val storyLine: String,
         val duration: Int,
         val actorList: List<Actor>
-)
+)  : Parcelable
+
