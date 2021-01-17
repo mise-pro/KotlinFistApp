@@ -1,17 +1,24 @@
 package ru.promise.educationKtApp
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
+import ru.promise.educationKtApp.model.Movie
 
-class FragmentMoviesList : Fragment() {
+//todo add itemDecoration for movies
 
-    private var cardClicked: CardView? = null
-    private var listener: IFragmentMoviesListListener? = null
+class FragmentMoviesList : Fragment(), IMovieSelectionListener {
+
+    private var movieSelectionListener: IMovieSelectionListener? = null
+    private var recycler: RecyclerView? = null
+
+    companion object {
+        const val FRAGMENT_NAME = "FRAGMENT_MOVIE_LIST"
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -22,29 +29,33 @@ class FragmentMoviesList : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        cardClicked = view.findViewById<CardView>(R.id.movieCardView).apply {
-            setOnClickListener {
-                listener?.movieCardClick(656)
-                Log.d("setOnClickListener", "catch!")
-            }
-            //todo pass real movieId
-        }
+        recycler = view.findViewById(R.id.rvMovieList)
+        recycler?.adapter = MovieAdapter(this)
     }
 
     override fun onDestroy() {
+        recycler = null
+        movieSelectionListener = null
         super.onDestroy()
-        listener = null
+    }
+    override fun onDetach() {
+        recycler = null
+        movieSelectionListener = null
+        super.onDetach()
     }
 
-    interface IFragmentMoviesListListener {
-        fun movieCardClick(movieId: Int)
+    fun sunscribeMovieSelection(l: IMovieSelectionListener) {
+        movieSelectionListener = l
     }
 
-    fun setClickListener(l: IFragmentMoviesListListener) {
-        listener = l
-    }
-
-    companion object {
-        const val FRAGMENT_NAME = "FRAGMENT_MOVIE_LIST"
+    override fun movieSelectionClick(movie: Movie) {
+        recycler?.let { rv ->
+            Snackbar.make(
+                rv,
+                "You chose: ${movie.name}",
+                Snackbar.LENGTH_SHORT)
+                .show()
+        }
+        movieSelectionListener?.movieSelectionClick(movie)
     }
 }

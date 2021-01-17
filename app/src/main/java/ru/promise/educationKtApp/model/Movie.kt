@@ -8,5 +8,6 @@ data class Movie(
         val rating: Int,
         val reviews: Int,
         val storyLine: String,
+        val duration: Int,
         val actorList: List<Actor>
 )

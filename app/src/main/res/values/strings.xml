@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">_KtApp</string>
-    <!-- Strings used for fragments for navigation -->
     <string name="movie_pg">13+</string>
     <string name="movieName">Avengers:<br/>End Game</string>
     <string name="movieTagline">Action, Adventure, Fantasy</string>
