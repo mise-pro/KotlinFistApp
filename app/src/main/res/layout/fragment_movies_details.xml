@@ -62,7 +62,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/pg" />
 
             <TextView
-                android:id="@+id/tagLine"
+                android:id="@+id/genreLine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -80,7 +80,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="4dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tagLine"
+                app:layout_constraintTop_toBottomOf="@+id/genreLine"
                 tools:srcCompat="@drawable/star_icon_en" />
 
             <ImageView
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 app:layout_constraintStart_toEndOf="@+id/rateStar1"
-                app:layout_constraintTop_toBottomOf="@+id/tagLine"
+                app:layout_constraintTop_toBottomOf="@+id/genreLine"
                 tools:srcCompat="@drawable/star_icon_en" />
 
             <ImageView
@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 app:layout_constraintStart_toEndOf="@+id/rateStar2"
-                app:layout_constraintTop_toBottomOf="@+id/tagLine"
+                app:layout_constraintTop_toBottomOf="@+id/genreLine"
                 tools:srcCompat="@drawable/star_icon_en" />
             <ImageView
                 android:id="@+id/rateStar4"
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 app:layout_constraintStart_toEndOf="@+id/rateStar3"
-                app:layout_constraintTop_toBottomOf="@+id/tagLine"
+                app:layout_constraintTop_toBottomOf="@+id/genreLine"
                 tools:srcCompat="@drawable/star_icon_en" />
 
             <ImageView
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 app:layout_constraintStart_toEndOf="@+id/rateStar4"
-                app:layout_constraintTop_toBottomOf="@+id/tagLine"
+                app:layout_constraintTop_toBottomOf="@+id/genreLine"
                 tools:srcCompat="@drawable/star_icon_dis" />
 
             <TextView
@@ -127,7 +127,7 @@
                 android:textColor="@color/colorMyGray"
                 android:textSize="14dp"
                 app:layout_constraintStart_toEndOf="@+id/rateStar5"
-                app:layout_constraintTop_toBottomOf="@+id/tagLine" />
+                app:layout_constraintTop_toBottomOf="@+id/genreLine" />
 
             <TextView
                 android:id="@+id/storyLine"

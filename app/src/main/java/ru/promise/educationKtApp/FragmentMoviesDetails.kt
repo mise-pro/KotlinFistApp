@@ -56,19 +56,19 @@ class FragmentMoviesDetails : Fragment() {
         val name: TextView = view.findViewById(R.id.movieName)
         val pg: TextView = view.findViewById(R.id.pg)
         val poster: ImageView = view.findViewById(R.id.moviePoster)
-        val tagline: TextView = view.findViewById(R.id.tagLine)
+        val tagline: TextView = view.findViewById(R.id.genreLine)
         val reviews: TextView = view.findViewById(R.id.reviewCounter)
 
-        name.text = selectedMovie?.name
+        name.text = selectedMovie?.title
 
         Glide.with(context)
-                .load(selectedMovie?.poster)
+                .load(selectedMovie?.imageUrl)
                 .apply(imageOption)
                 .into(poster)
 
-        pg.text = "${selectedMovie?.pg.toString()}+"
-        tagline.text = selectedMovie?.tagline
-        reviews.text = "${selectedMovie?.reviews.toString()} reviews"
+        pg.text = "${selectedMovie?.pgAge.toString()}+"
+        tagline.text = selectedMovie!!.genres.joinToString(separator = ", ")
+        reviews.text = "${selectedMovie?.reviewCount.toString()} reviews"
 
         val ratingStars = listOf<ImageView>(view.findViewById(R.id.rateStar1),
                 view.findViewById(R.id.rateStar2),
@@ -76,6 +76,7 @@ class FragmentMoviesDetails : Fragment() {
                 view.findViewById(R.id.rateStar4),
                 view.findViewById(R.id.rateStar5))
 
+        //todo need to be refactored
         for (i in 0..4) {
             if (selectedMovie!!.rating > i) {
                 ratingStars[i].setImageResource(R.drawable.star_icon_en)
@@ -86,7 +87,7 @@ class FragmentMoviesDetails : Fragment() {
 
         recycler = view.findViewById(R.id.rvActorList)
 
-        recycler?.adapter = selectedMovie?.let { ActorAdapter(it.actorList) }
+        recycler?.adapter = selectedMovie?.let { ActorAdapter(it.actors) }
     }
 
     override fun onDestroy() {

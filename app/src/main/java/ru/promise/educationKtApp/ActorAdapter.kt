@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import ru.promise.educationKtApp.model.Actor
-import ru.promise.educationKtApp.model.Movie
 
 
 class ActorAdapter(
@@ -26,7 +25,6 @@ class ActorAdapter(
     override fun onBindViewHolder(holder: ActorViewHolder, position: Int) {
         holder.onBind(imageOption, actors[position])
     }
-
     override fun getItemCount(): Int = actors.size
 }
 
@@ -36,7 +34,7 @@ class ActorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun onBind(options: RequestOptions, actor: Actor) {
         Glide.with(context)
-                .load(actor.pic)
+                .load(actor.imageUrl)
                 .apply(options)
                 .into(poster)
 
