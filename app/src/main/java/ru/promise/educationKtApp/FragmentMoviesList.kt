@@ -50,7 +50,7 @@ class FragmentMoviesList : Fragment(), IMovieSelectionListener {
 
     private suspend fun newMoviesLoaded() = withContext(Dispatchers.Main) {
         if (movies != null) {
-            recycler?.adapter = MovieAdapter(getMovieSelectionListener(), movies!!)//todo check !!
+            recycler?.adapter = MovieAdapter(getMovieSelectionListener(), movies!!)
         } else {
             nothingToShowLabel?.text = "No movies were downloaded. Seriously!"
         }
