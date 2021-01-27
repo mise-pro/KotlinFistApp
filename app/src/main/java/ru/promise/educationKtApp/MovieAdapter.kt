@@ -49,7 +49,6 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             itemView.findViewById(R.id.rateStar4),
             itemView.findViewById(R.id.rateStar5))
 
-
     fun onBind(options: RequestOptions, movie: Movie) {
         Glide.with(context)
                 .load(movie.imageUrl)
@@ -60,9 +59,8 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         pg.text = "${movie.pgAge.toString()}+"
         duration.text = "${movie.runningTime.toString()} min"
         genreLine.text = movie.genres.joinToString(separator = ", ")
+        reviews.text = "${movie.reviewCount.toString()} reviews"
 
-
-        //todo convert 10 to 5 star
         for (i in 0..4) {
             if (movie.rating > i) {
                 ratingStars[i].setImageResource(R.drawable.star_icon_en)

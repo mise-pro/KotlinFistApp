@@ -18,14 +18,15 @@
 
             <ImageView
                 android:id="@+id/moviePoster"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="300dp"
                 android:alpha="1"
                 android:foreground="@drawable/movie_poster_gradient"
+                android:scaleType="matrix"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@drawable/movie_poster" />
+                app:srcCompat="@drawable/movie_poster" />
 
             <TextView
                 android:id="@+id/backButton"
