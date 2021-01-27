@@ -33,11 +33,13 @@ class MainActivity : AppCompatActivity(), IMovieSelectionListener, IBackToMovieL
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(VISIBLE_FRAGMENT, visibleFragment)
+        outState.putParcelable(SELECTED_MOVIE, selectedMovie)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         visibleFragment = savedInstanceState.getString(VISIBLE_FRAGMENT)
+        selectedMovie = savedInstanceState.getParcelable(SELECTED_MOVIE)
         setupUi()
     }
 
@@ -74,6 +76,7 @@ class MainActivity : AppCompatActivity(), IMovieSelectionListener, IBackToMovieL
 
     companion object {
         private const val VISIBLE_FRAGMENT = "VISIBLE_FRAGMENT"
+        private const val SELECTED_MOVIE = "SELECTED_MOVIE"
     }
 }
 interface IMovieSelectionListener {

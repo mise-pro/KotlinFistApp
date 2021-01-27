@@ -12,9 +12,10 @@ import ru.promise.educationKtApp.model.Movie
 
 
 class MovieAdapter(
-        private val clickItemMovieListener: IMovieSelectionListener
+        private val clickItemMovieListener: IMovieSelectionListener,
+        private val movies : List<Movie>
 ) : RecyclerView.Adapter<MovieViewHolder>() {
-    private var movies = dataMock().getData()
+
     private val imageOption = RequestOptions()
             .placeholder(R.drawable.ic_launcher_background)
             .fallback(R.drawable.ic_launcher_background)
@@ -24,6 +25,7 @@ class MovieAdapter(
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+
         holder.onBind(imageOption, movies[position])
         holder.itemView.setOnClickListener {
             clickItemMovieListener.movieSelectionClick(movies[position])
@@ -37,7 +39,7 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val name: TextView = itemView.findViewById(R.id.movieName)
     private val poster: ImageView = itemView.findViewById(R.id.moviePoster)
     private val pg: TextView = itemView.findViewById(R.id.pg)
-    private val tagline: TextView = itemView.findViewById(R.id.tagLine)
+    private val genreLine: TextView = itemView.findViewById(R.id.genreLine)
     private val reviews: TextView = itemView.findViewById(R.id.reviewCounter)
     private val duration: TextView = itemView.findViewById(R.id.duration)
 
@@ -47,18 +49,17 @@ class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             itemView.findViewById(R.id.rateStar4),
             itemView.findViewById(R.id.rateStar5))
 
-
     fun onBind(options: RequestOptions, movie: Movie) {
         Glide.with(context)
-                .load(movie.poster)
+                .load(movie.imageUrl)
                 .apply(options)
                 .into(poster)
 
-        name.text = movie.name
-        pg.text = "${movie.pg.toString()}+"
-        duration.text = "${movie.duration.toString()} min"
-        tagline.text = movie.tagline
-        reviews.text = "${movie.reviews.toString()} reviews"
+        name.text = movie.title
+        pg.text = "${movie.pgAge.toString()}+"
+        duration.text = "${movie.runningTime.toString()} min"
+        genreLine.text = movie.genres.joinToString(separator = ", ")
+        reviews.text = "${movie.reviewCount.toString()} reviews"
 
         for (i in 0..4) {
             if (movie.rating > i) {
