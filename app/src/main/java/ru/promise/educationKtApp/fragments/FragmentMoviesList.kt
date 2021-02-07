@@ -1,7 +1,6 @@
-package ru.promise.educationKtApp
+package ru.promise.educationKtApp.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,12 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import ru.promise.educationKtApp.IMovieSelectionListener
+import ru.promise.educationKtApp.R
 import ru.promise.educationKtApp.data.loadMovies
 import ru.promise.educationKtApp.model.Movie
 

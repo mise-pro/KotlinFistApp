@@ -2,6 +2,8 @@ package ru.promise.educationKtApp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import ru.promise.educationKtApp.fragments.FragmentMoviesDetails
+import ru.promise.educationKtApp.fragments.FragmentMoviesList
 import ru.promise.educationKtApp.model.Movie
 
 class MainActivity : AppCompatActivity(), IMovieSelectionListener, IBackToMovieListListener {
@@ -22,7 +24,6 @@ class MainActivity : AppCompatActivity(), IMovieSelectionListener, IBackToMovieL
                     add(R.id.mainFrame, moviesListFragment!!)
                     commit()
                 }
-
 
         if (savedInstanceState == null) {
             visibleFragment = FragmentMoviesList.FRAGMENT_NAME

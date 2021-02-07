@@ -1,4 +1,4 @@
-package ru.promise.educationKtApp
+package ru.promise.educationKtApp.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import ru.promise.educationKtApp.fragments.ActorAdapter
+import ru.promise.educationKtApp.IBackToMovieListListener
+import ru.promise.educationKtApp.R
 import ru.promise.educationKtApp.model.Movie
 
 class FragmentMoviesDetails : Fragment() {
