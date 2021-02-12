@@ -2,87 +2,63 @@ package ru.promise.educationKtApp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import ru.promise.educationKtApp.fragments.FragmentMoviesDetails
-import ru.promise.educationKtApp.fragments.FragmentMoviesList
+import android.util.Log
+import androidx.activity.viewModels
+import ru.promise.educationKtApp.fragments.FragmentMovieDetails
+import ru.promise.educationKtApp.fragments.FragmentMovieList
+import ru.promise.educationKtApp.fragments.ViewModelFactory
 import ru.promise.educationKtApp.model.Movie
 
-class MainActivity : AppCompatActivity(), IMovieSelectionListener, IBackToMovieListListener {
+class MainActivity : AppCompatActivity() {
 
-    private var moviesListFragment: FragmentMoviesList? = null
-    private var movieDetailsFragment: FragmentMoviesDetails? = null
     private var selectedMovie: Movie? = null
-    private var visibleFragment: String? = null
-
+    private val mainActivityViewModel: MainActivityViewModel by viewModels { ViewModelFactory() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        mainActivityViewModel.activityState.observe(this, { setupFragment() })
+        setupFragment()
+    }
 
-        moviesListFragment = FragmentMoviesList().apply { sunscribeMovieSelection(this@MainActivity) }
-        supportFragmentManager.beginTransaction()
-                .apply {
-                    add(R.id.mainFrame, moviesListFragment!!)
-                    commit()
-                }
-
-        if (savedInstanceState == null) {
-            visibleFragment = FragmentMoviesList.FRAGMENT_NAME
-            setupUi()
+    fun setupFragment() {
+        when (mainActivityViewModel.activityState.value) {
+            is MainActivityViewModel.State.MovieList -> showMovieListFragment()
+            is MainActivityViewModel.State.MovieDetails -> showMovieDetailsFragment()
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(VISIBLE_FRAGMENT, visibleFragment)
-        outState.putParcelable(SELECTED_MOVIE, selectedMovie)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        visibleFragment = savedInstanceState.getString(VISIBLE_FRAGMENT)
-        selectedMovie = savedInstanceState.getParcelable(SELECTED_MOVIE)
-        setupUi()
-    }
-
-    private fun setupUi() {
-        if (visibleFragment == FragmentMoviesDetails.FRAGMENT_NAME) {
-            movieDetailsFragmentCreate()
-        }
-    }
-
-    private fun movieDetailsFragmentCreate() {
-        movieDetailsFragment = FragmentMoviesDetails.newInstance(selectedMovie!!).apply { setBackToMovieListListener(this@MainActivity) }
+    fun showMovieListFragment() {
+        val fragment = FragmentMovieList()
         supportFragmentManager.beginTransaction()
-                .apply {
-                    add(R.id.mainFrame, movieDetailsFragment!!)
-                    commit()
-                }
+            .apply {
+                add(R.id.mainFrame, fragment)
+                commit()
+            }
+        fragment.getFragmentEvents().selectedMovie.observe(this,
+            { movie ->
+                saveMovie(movie)
+                //todo pretty strange implementation x2+1
+                mainActivityViewModel.toMovieDetails(movie)
+            })
     }
 
-    override fun movieSelectionClick(movie: Movie) {
-        visibleFragment = FragmentMoviesDetails.FRAGMENT_NAME
-        selectedMovie = movie
-        movieDetailsFragmentCreate()
+    fun saveMovie(movie: Movie) {
+        //selectedMovie = movie
     }
 
-    override fun backToMovieListTransition() {
-        visibleFragment = FragmentMoviesList.FRAGMENT_NAME
+    fun showMovieDetailsFragment() {
+        Log.w("showMovieDetailsFragment", selectedMovie.toString())
+        val fragment = FragmentMovieDetails()
+        //fragment.setParam(mainActivityViewModel)
         supportFragmentManager.beginTransaction()
-                .apply {
-                    remove(movieDetailsFragment!!)
-                    commit()
-                }
-        movieDetailsFragment = null
+            .apply {
+                add(R.id.mainFrame, fragment)
+                commit()
+            }
+        fragment.initObserver(mainActivityViewModel)
     }
 
     companion object {
-        private const val VISIBLE_FRAGMENT = "VISIBLE_FRAGMENT"
-        private const val SELECTED_MOVIE = "SELECTED_MOVIE"
     }
-}
-interface IMovieSelectionListener {
-    fun movieSelectionClick(movie: Movie)
-}
-interface IBackToMovieListListener{
-    fun backToMovieListTransition()
 }

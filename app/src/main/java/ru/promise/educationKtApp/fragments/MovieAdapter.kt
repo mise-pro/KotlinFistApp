@@ -8,19 +8,19 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import ru.promise.educationKtApp.IMovieSelectionListener
 import ru.promise.educationKtApp.R
 import ru.promise.educationKtApp.model.Movie
 
 
 class MovieAdapter(
-    private val clickItemMovieListener: IMovieSelectionListener,
-    private val movies : List<Movie>
+    private val movies : List<Movie>,
+    private val viewModel: MovieListViewModel
 ) : RecyclerView.Adapter<MovieViewHolder>() {
 
     private val imageOption = RequestOptions()
             .placeholder(R.drawable.ic_launcher_background)
             .fallback(R.drawable.ic_launcher_background)
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         return MovieViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_holder_movie, parent, false))
@@ -30,7 +30,7 @@ class MovieAdapter(
 
         holder.onBind(imageOption, movies[position])
         holder.itemView.setOnClickListener {
-            clickItemMovieListener.movieSelectionClick(movies[position])
+            viewModel.selectMovie(position)
         }
     }
 
