@@ -1,4 +1,4 @@
-package ru.promise.educationKtApp
+package ru.promise.educationKtApp.fragments
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import ru.promise.educationKtApp.R
 import ru.promise.educationKtApp.model.Actor
 
 
