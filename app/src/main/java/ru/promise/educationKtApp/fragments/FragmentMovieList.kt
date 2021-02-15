@@ -29,13 +29,6 @@ class FragmentMovieList () : Fragment() {
 
     private val movieListViewModel: MovieListViewModel by viewModels { ViewModelFactory() }
 
-    companion object {
-    }
-
-    fun getFragmentEvents(): MovieListViewModel {
-        return movieListViewModel
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,10 +38,6 @@ class FragmentMovieList () : Fragment() {
         movieListViewModel.currentMovieList.observe(
             this.viewLifecycleOwner,
             { movies -> newMoviesLoaded(movies) })
-        movieListViewModel.selectedMovie.observe(
-            this.viewLifecycleOwner,
-            { selectedMovie -> showSelectedMovieHint(selectedMovie)
-            })
         movieListViewModel.getMovieList(view.context)
         return view
     }
@@ -83,7 +72,6 @@ class FragmentMovieList () : Fragment() {
 
 
     fun showSelectedMovieHint(movie: Movie) {
-        Log.d("showSelectedMovieHint", movieListViewModel.selectedMovie.value.toString())
         recycler?.let { rv ->
             Snackbar.make(
                 rv,
@@ -92,6 +80,15 @@ class FragmentMovieList () : Fragment() {
             )
                 .show()
         }
+    }
+
+    fun initSubscription(mainActivityViewModel: MainActivityViewModel) {
+        movieListViewModel.initSubscription (mainActivityViewModel)
+        mainActivityViewModel.activityState.observe(this, { state ->
+            if (state is MainActivityViewModel.State.MovieDetails) {
+                showSelectedMovieHint(state.selectedMovie)
+            }
+        })
     }
 
 }

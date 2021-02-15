@@ -8,7 +8,7 @@ class MovieDetailsViewModel(
 
     private var mainActivityVM: MainActivityViewModel? = null
 
-    fun initVM(
+    fun initSubscription(
         mainActivityViewModel: MainActivityViewModel
     ) {
         mainActivityVM = mainActivityViewModel

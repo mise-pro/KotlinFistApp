@@ -15,24 +15,26 @@ import ru.promise.educationKtApp.model.Movie
 
 class MovieListViewModel(
 ) : ViewModel() {
+    private var mainActivityViewModel: MainActivityViewModel? = null
 
     private val scopeMain = CoroutineScope(Dispatchers.Main)
 
     private val _currentMovieList = MutableLiveData<List<Movie>>(emptyList())
     val currentMovieList: LiveData<List<Movie>> get() = _currentMovieList
 
-    private val _selectedMovie = MutableLiveData<Movie>()
-    val selectedMovie: LiveData<Movie> get() = _selectedMovie
-
     fun selectMovie(currentMovieListPosition: Int) {
-        _selectedMovie.value = _currentMovieList.value?.get(currentMovieListPosition)
-        Log.d("selectMovie", currentMovieListPosition.toString())
+        val movie = _currentMovieList.value?.get(currentMovieListPosition)
+        mainActivityViewModel?.toMovieDetails(movie!!)
     }
 
     fun getMovieList(context: Context) {
-        //todo why main scope?
+        //todo should be splited to 2 different scopes: IO + main
         scopeMain.launch {
             _currentMovieList.value = loadMovies(context)
         }
+    }
+
+    fun initSubscription(mainActivityViewModel: MainActivityViewModel) {
+        this.mainActivityViewModel = mainActivityViewModel
     }
 }

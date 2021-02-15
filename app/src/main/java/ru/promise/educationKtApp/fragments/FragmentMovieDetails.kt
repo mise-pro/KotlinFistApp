@@ -17,7 +17,7 @@ import ru.promise.educationKtApp.MainActivityViewModel
 import ru.promise.educationKtApp.R
 import ru.promise.educationKtApp.model.Movie
 
-class FragmentMovieDetails() : Fragment() {
+class FragmentMovieDetails : Fragment() {
 
     private val imageOption = RequestOptions()
         .placeholder(R.drawable.ic_launcher_background)
@@ -36,10 +36,6 @@ class FragmentMovieDetails() : Fragment() {
 
     private val movieDetailsVM: MovieDetailsViewModel by viewModels { ViewModelFactory() }
 
-    companion object {
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,10 +46,10 @@ class FragmentMovieDetails() : Fragment() {
         return view
     }
 
-    fun initObserver(
+    fun initSubscription(
         mainActivityViewModel: MainActivityViewModel
     ) {
-        movieDetailsVM.initVM(mainActivityViewModel)
+        movieDetailsVM.initSubscription(mainActivityViewModel)
 
         mainActivityViewModel.activityState.observe(this, { state ->
             if (state is MainActivityViewModel.State.MovieDetails) {
@@ -71,7 +67,7 @@ class FragmentMovieDetails() : Fragment() {
             .apply(imageOption)
             .into(poster)
 
-        pg?.text = "${selectedMovie.pgAge.toString()}+"
+        pg?.text = "${selectedMovie.pgAge}+"
         tagline?.text = selectedMovie.genres.joinToString(separator = ", ")
         reviews?.text = "${selectedMovie?.reviewCount.toString()} reviews"
 
