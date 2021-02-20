@@ -19,26 +19,27 @@ class MovieListViewModel(
     private val _currentMovieList = MutableLiveData<List<Movie>>(emptyList())
     val currentMovieList: LiveData<List<Movie>> get() = _currentMovieList
 
+    //todo should be switched to id instead of position
     fun selectMovie(currentMovieListPosition: Int) {
         val movie = _currentMovieList.value?.get(currentMovieListPosition)
-        mainActivityViewModel?.toMovieDetails(movie!!)
+        NetworkModule().getMovieDetails(movie!!,this)
     }
 
     fun getMovieList() {
-        //todo should be splited to 2 different scopes: IO + main
-        scopeMain.launch {
-            //_currentMovieList.value = loadMovies(context)
-        }
         NetworkModule().getMoviesPopular(this)
     }
 
-    fun receiveResult(movies: List<Movie>) {
+    fun receiveNewMovies(movies: List<Movie>) {
         scopeMain.launch {
             _currentMovieList.value=movies
         }
     }
 
-
+    fun receiveNewSelectedMovies(movie: Movie) {
+        scopeMain.launch {
+            mainActivityViewModel?.toMovieDetails(movie)
+        }
+    }
 
     fun initSubscription(mainActivityViewModel: MainActivityViewModel) {
         this.mainActivityViewModel = mainActivityViewModel

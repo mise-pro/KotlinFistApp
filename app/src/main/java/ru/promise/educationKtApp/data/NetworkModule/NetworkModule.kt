@@ -15,7 +15,7 @@ import ru.promise.networktest.netModule.dataClass.*
 
 class NetworkModule {
 
-    var coroutineScope = createCoroutineScope()
+    private var coroutineScope = createCoroutineScope()
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         Log.e(LOG_TAG, "Coroutine exception, scope active:${coroutineScope.isActive}", throwable)
         coroutineScope = createCoroutineScope()
@@ -31,7 +31,10 @@ class NetworkModule {
         }
     }
 
-    fun getMoviesPopular(fragment: MovieListViewModel) {
+    //todo this realization should be overrided by strucrure
+    //suspend fun getMoviesPopular_(): List<Movie> = coroutineScope.launch(exceptionHandler)
+    //but was unable to start it right with good exceptionHandler
+    fun getMoviesPopular(subscriber: MovieListViewModel) {
         coroutineScope.launch(exceptionHandler) {
             init()
             val movieItemList = RetrofitModule.movieAPI.getMoviesPopular().results
@@ -39,17 +42,19 @@ class NetworkModule {
             val genresItemList = RetrofitModule.movieAPI.getGenres().genres
             val genresList = ObjConverter().convertToGenreList(genresItemList)
             movieList = ObjConverter().updateWithGenres(movieList, genresList)
-            movieList = ObjConverter().updateImageUrlForMovie(movieList, BASE_IMAGE_URL + IMAGE_QUALITY)
-            fragment.receiveResult(movieList)
+            movieList =
+                ObjConverter().updateImageUrlForMovie(movieList, BASE_IMAGE_URL + IMAGE_QUALITY)
+            subscriber.receiveNewMovies(movieList)
         }
     }
 
-    fun getMovieDetails(movie: Movie, fragment: MovieListViewModel) {
+    fun getMovieDetails(movie: Movie, subscriber: MovieListViewModel) {
         coroutineScope.launch(exceptionHandler) {
             val castItems = RetrofitModule.movieAPI.getMovieCredits(movie.id).cast
-            var updatedMovie = ObjConverter().updateWithActors(movie,castItems)
-            updatedMovie = ObjConverter().updateImageUrlForActors(updatedMovie, BASE_IMAGE_URL + IMAGE_QUALITY)
-            //fragment.receiveResult2(updatedMovie)
+            var updatedMovie = ObjConverter().updateWithActors(movie, castItems)
+            updatedMovie =
+                ObjConverter().updateImageUrlForActors(updatedMovie, BASE_IMAGE_URL + IMAGE_QUALITY)
+            subscriber.receiveNewSelectedMovies(updatedMovie)
         }
 
     }
@@ -74,14 +79,14 @@ class NetworkModule {
         @GET("movie/{movie_id}/credits?api_key=${API_KEY}")
         suspend fun getMovieCredits(@Path("movie_id") movieId: Int): CreditsResponse
 
-        @GET("person/{person_id}?api_key=${API_KEY}")
-        suspend fun getActor(@Path("person_id") personId: Int): PersonResponse
-
         @GET("genre/movie/list?api_key=${API_KEY}")
         suspend fun getGenres(): GenresResponse
 
         /*@GET
-        suspend fun testReq(@Url url:String): ConfigResponse*/
+        suspend fun testReq(@Url url:String): ConfigResponse
+
+        @GET("person/{person_id}?api_key=${API_KEY}")
+        suspend fun getActor(@Path("person_id") personId: Int): PersonResponse*/
     }
 
 
