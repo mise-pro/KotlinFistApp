@@ -1,21 +1,23 @@
 package ru.promise.educationKtApp.model
 
-import android.os.Parcelable
-import java.io.Serializable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.serialization.Serializable
 
-@Parcelize
-data class Movie (
-        val id: Int,
-        val pgAge: Int,
-        val title: String,
-        val genres: List<Genre>,
-        val imageUrl: String,
-        val detailImageUrl: String,
-        val runningTime: Int,
-        val isLiked: Boolean,
-        val rating: Int,
-        val storyLine: String,
-        val reviewCount: Int,
-        val actors: List<Actor>
-) : Serializable, Parcelable
+@Serializable
+data class Movie(
+    val id: Int,
+    val pgAge: Int,
+    val title: String,
+    var genres: List<Genre>,
+    var imageUrl: String,
+    var detailImageUrl: String,
+    val runningTime: Int,
+    var isLiked: Boolean,
+    val rating: Int,
+    val storyLine: String,
+    var reviewCount: Int,
+    var actors: List<Actor>
+) {
+    override fun toString(): String {
+        return this.title
+    }
+}

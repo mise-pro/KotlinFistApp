@@ -1,8 +1,5 @@
 package ru.promise.educationKtApp.fragments
 
-import android.content.Context
-import android.util.Log
-import androidx.activity.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,8 +7,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.promise.educationKtApp.MainActivityViewModel
-import ru.promise.educationKtApp.data.loadMovies
 import ru.promise.educationKtApp.model.Movie
+import ru.promise.networktest.netModule.NetworkModule
 
 class MovieListViewModel(
 ) : ViewModel() {
@@ -22,15 +19,25 @@ class MovieListViewModel(
     private val _currentMovieList = MutableLiveData<List<Movie>>(emptyList())
     val currentMovieList: LiveData<List<Movie>> get() = _currentMovieList
 
+    //todo should be switched to id instead of position
     fun selectMovie(currentMovieListPosition: Int) {
         val movie = _currentMovieList.value?.get(currentMovieListPosition)
-        mainActivityViewModel?.toMovieDetails(movie!!)
+        NetworkModule().getMovieDetails(movie!!,this)
     }
 
-    fun getMovieList(context: Context) {
-        //todo should be splited to 2 different scopes: IO + main
+    fun getMovieList() {
+        NetworkModule().getMoviesPopular(this)
+    }
+
+    fun receiveNewMovies(movies: List<Movie>) {
         scopeMain.launch {
-            _currentMovieList.value = loadMovies(context)
+            _currentMovieList.value=movies
+        }
+    }
+
+    fun receiveNewSelectedMovies(movie: Movie) {
+        scopeMain.launch {
+            mainActivityViewModel?.toMovieDetails(movie)
         }
     }
 

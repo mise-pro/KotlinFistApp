@@ -1,15 +1,13 @@
 package ru.promise.educationKtApp.model
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
 import java.io.Serializable
 
-@Parcelize
+@kotlinx.serialization.Serializable
 data class Actor(
     val id: Int,
-    val name: String,
-    val imageUrl: String
-) : Serializable, Parcelable {
+    var name: String,
+    var imageUrl: String
+) : Serializable {
     override fun toString(): String {
         return name
     }

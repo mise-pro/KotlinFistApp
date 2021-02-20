@@ -1,7 +1,6 @@
 package ru.promise.educationKtApp.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,7 @@ import ru.promise.educationKtApp.model.Movie
 
 //todo add itemDecoration for movies
 
-class FragmentMovieList () : Fragment() {
+class FragmentMovieList() : Fragment() {
 
     private var recycler: RecyclerView? = null
     private val scopeMain = CoroutineScope(Dispatchers.Main)
@@ -37,8 +36,11 @@ class FragmentMovieList () : Fragment() {
         val view = inflater.inflate(R.layout.fragment_movies_list, container, false)
         movieListViewModel.currentMovieList.observe(
             this.viewLifecycleOwner,
-            { movies -> newMoviesLoaded(movies) })
-        movieListViewModel.getMovieList(view.context)
+            { movies ->
+                newMoviesLoaded(movies)
+                showNewMoviesLoadedHint()
+            })
+        movieListViewModel.getMovieList()
         return view
     }
 
@@ -70,6 +72,16 @@ class FragmentMovieList () : Fragment() {
         super.onDetach()
     }
 
+    fun showNewMoviesLoadedHint() {
+        recycler?.let { rv ->
+            Snackbar.make(
+                rv,
+                "New movies downloaded!",
+                Snackbar.LENGTH_SHORT
+            )
+                .show()
+        }
+    }
 
     fun showSelectedMovieHint(movie: Movie) {
         recycler?.let { rv ->
@@ -83,7 +95,7 @@ class FragmentMovieList () : Fragment() {
     }
 
     fun initSubscription(mainActivityViewModel: MainActivityViewModel) {
-        movieListViewModel.initSubscription (mainActivityViewModel)
+        movieListViewModel.initSubscription(mainActivityViewModel)
         mainActivityViewModel.activityState.observe(this, { state ->
             if (state is MainActivityViewModel.State.MovieDetails) {
                 showSelectedMovieHint(state.selectedMovie)
