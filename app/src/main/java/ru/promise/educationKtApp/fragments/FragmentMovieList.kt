@@ -1,7 +1,6 @@
 package ru.promise.educationKtApp.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +37,7 @@ class FragmentMovieList () : Fragment() {
         movieListViewModel.currentMovieList.observe(
             this.viewLifecycleOwner,
             { movies -> newMoviesLoaded(movies) })
-        movieListViewModel.getMovieList(view.context)
+        movieListViewModel.getMovieList()
         return view
     }
 
